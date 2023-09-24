@@ -62,10 +62,7 @@ class _MyAppState extends State<MyApp> {
       //   theme: getThemeDataLight(),
         theme: CacheData.getData(key: 'Mode')??false?getThemeDataLight():getThemeDataDark(),
       //theme:TF?getThemeDataLight():getThemeDataDark(),
-      //   theme: ThemeData(
-      //     primarySwatch: Colors.red,
-      //     primaryColor: Colors.green
-      //   ),
+
       home:  Scaffold(
         appBar: AppBar(
           leading: Icon(Icons.add),
