@@ -21,6 +21,9 @@ class _MyAppState extends State<MyApp> {
   bool isLightTheme = CacheManager.getData(key: 'Mode') ?? false;
 
   void _toggleTheme(bool value) {
+
+
+
     setState(() {
       isLightTheme = value;
       CacheManager.saveData(key: 'Mode', value: value);
