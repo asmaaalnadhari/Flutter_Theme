@@ -1,68 +1,41 @@
-//SharedPreferences
-  //- Store data key:value.
-  //save - get -delete- clear
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CacheData{
- static late SharedPreferences sharedPreferences; //declare
- static Future<void> cacheInitialization() async {
-    sharedPreferences= await SharedPreferences.getInstance();
-  }
-  //methods:
-    ///1. set:
-    // void setData({required String key, required bool value}){
-//   sharedPreferences.setBool(key, value);
-// }
-  static Future<bool> setData({required String key, required dynamic value})async
-  {
-   if( value is bool)
-     {
-       print(value is bool);
-       return await sharedPreferences.setBool(key, value);
-     }
-   else if( value is String)
-     {
+/// A class responsible for managing cached data using SharedPreferences.
+class CacheManager {
+  static late SharedPreferences _sharedPreferences;
 
-       return await  sharedPreferences.setString(key, value);
-   }
-  else if( value is double)
-     {
-
-       return await  sharedPreferences.setDouble(key, value);
-   }
-  else if( value is int)
-     {
-
-       return await  sharedPreferences.setInt(key, value);
-   }
-  return false;
-  //   switch(value) {
-  //     case bool:
-  //       return await sharedPreferences.setBool(key, value);
-  //     case String:
-  //       return await sharedPreferences.setString(key, value);
-  //     case double:
-  //      return await sharedPreferences.setDouble(key, value);
-  //     case int:
-  //       return await sharedPreferences.setInt(key, value);
-  //     default:
-  //       return false;
-  //   }
-
+  /// Initialize the SharedPreferences instance.
+  static Future<void> initializeCache() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
   }
-    ///2. get:
-  static dynamic getData({required String key})
-  {
-    return sharedPreferences.get(key);
+
+  /// Save data based on the type of value.
+  static Future<bool> saveData({required String key, required dynamic value}) async {
+    if (value is bool) {
+      return await _sharedPreferences.setBool(key, value);
+    } else if (value is String) {
+      return await _sharedPreferences.setString(key, value);
+    } else if (value is double) {
+      return await _sharedPreferences.setDouble(key, value);
+    } else if (value is int) {
+      return await _sharedPreferences.setInt(key, value);
+    } else {
+      throw ArgumentError('Unsupported value type for SharedPreferences');
+    }
   }
-  ///3. delete:
-  static Future<bool> deleteData({required String key})async
-  {
-    return await sharedPreferences.remove(key);
+
+  /// Retrieve data by key. Returns `null` if the key does not exist.
+  static dynamic getData({required String key}) {
+    return _sharedPreferences.get(key);
   }
-  ///3. clear:
-  static Future<bool> clearData()async
-  {
-    return await sharedPreferences.clear();
+
+  /// Delete data for a specific key.
+  static Future<bool> deleteData({required String key}) async {
+    return await _sharedPreferences.remove(key);
+  }
+
+  /// Clear all stored data.
+  static Future<bool> clearAllData() async {
+    return await _sharedPreferences.clear();
   }
 }
